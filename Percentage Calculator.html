@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Percentage & Grade Calculator</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      animation: fadeIn 1s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .container {
+      background-color: #ffffff;
+      padding: 2rem 2.5rem;
+      border-radius: 1rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    h2 {
+      margin-bottom: 1.5rem;
+      color: #333;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: #555;
+      text-align: left;
+    }
+
+    input[type="number"] {
+      width: 100%;
+      padding: 0.75rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      transition: border-color 0.3s ease;
+    }
+
+    input[type="number"]:focus {
+      border-color: #4a90e2;
+      outline: none;
+    }
+
+    button {
+      width: 100%;
+      padding: 0.75rem;
+      background-color: #4a90e2;
+      color: white;
+      border: none;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    button:hover {
+      background-color: #357abd;
+      transform: translateY(-2px);
+    }
+
+    #result {
+      margin-top: 1.5rem;
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #2e7d32;
+      animation: popUp 0.5s ease;
+      white-space: pre-line;
+    }
+
+    .error {
+      color: #d32f2f;
+    }
+
+    @keyframes popUp {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>Percentage & Grade Calculator</h2>
+
+    <label for="obtained_marks">Obtained Marks:</label>
+    <input type="number" id="obtained_marks" placeholder="Enter obtained marks" />
+
+    <label for="total_marks">Total Marks:</label>
+    <input type="number" id="total_marks" placeholder="Enter total marks" />
+
+    <button type="submit" onclick="calculateGrade()">Calculate Grade</button>
+
+    <p id="result"></p>
+  </div>
+
+  <script>
+    function calculateGrade() {
+      const obtained = parseFloat(document.getElementById("obtained_marks").value.trim());
+      const total = parseFloat(document.getElementById("total_marks").value.trim());
+      const result = document.getElementById("result");
+
+      if (
+        isNaN(obtained) || isNaN(total) ||
+        obtained > total || obtained < 0 || total <= 0
+      ) {
+        result.innerText = "Please enter valid marks.";
+        result.classList.add("error");
+        return;
+      }
+
+      const percentage = (obtained / total) * 100;
+      let grade = "";
+
+      if (percentage >= 90) grade = "A+";
+      else if (percentage >= 80) grade = "A";
+      else if (percentage >= 70) grade = "B";
+      else if (percentage >= 60) grade = "C";
+      else if (percentage >= 50) grade = "D";
+      else grade = "Fail";
+
+      result.classList.remove("error");
+      result.style.color = percentage >= 50 ? "#2e7d32" : "#d32f2f";
+      result.innerText = `Percentage: ${percentage.toFixed(2)}%\nGrade: ${grade}`;
+    }
+  </script>
+
+</body>
+</html>
